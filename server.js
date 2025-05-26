@@ -1,14 +1,7 @@
 const express = require('express');
-const cors = require('cors');
 const Stripe = require('stripe');
-
 const app = express();
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
-
-// Allow requests from your Wix frontend
-app.use(cors({
-  origin: 'https://www.remoteperformanceco.ca'
-}));
 
 app.use(express.json());
 
@@ -31,8 +24,8 @@ app.post('/create-checkout-session', async (req, res) => {
         },
       ],
       mode: 'payment',
-      success_url: 'https://www.remoteperformanceco.ca/success',
-      cancel_url: 'https://www.remoteperformanceco.ca/cancel',
+      success_url: 'https://yourdomain.com/success',
+      cancel_url: 'https://yourdomain.com/cancel',
     });
 
     res.json({ url: session.url });
