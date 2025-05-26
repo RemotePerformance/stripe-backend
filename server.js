@@ -1,8 +1,12 @@
 const express = require('express');
+const cors = require('cors');
 const Stripe = require('stripe');
+require('dotenv').config();
+
 const app = express();
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
+app.use(cors());
 app.use(express.json());
 
 app.post('/create-checkout-session', async (req, res) => {
@@ -14,7 +18,7 @@ app.post('/create-checkout-session', async (req, res) => {
       line_items: [
         {
           price_data: {
-            currency: 'cad',
+            currency: 'usd',
             product_data: {
               name: 'Stretching Session Package',
             },
@@ -24,8 +28,8 @@ app.post('/create-checkout-session', async (req, res) => {
         },
       ],
       mode: 'payment',
-      success_url: 'https://yourdomain.com/success',
-      cancel_url: 'https://yourdomain.com/cancel',
+      success_url: 'https://www.remoteperformanceco.ca/success',
+      cancel_url: 'https://www.remoteperformanceco.ca/cancel',
     });
 
     res.json({ url: session.url });
